@@ -51,6 +51,7 @@ public class BoardController extends HttpServlet {
 			pstmt.setString(1, subject);
 			pstmt.setString(2, content);
 			pstmt.setString(3, writer);
+			
 
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
