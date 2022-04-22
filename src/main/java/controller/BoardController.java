@@ -23,17 +23,7 @@ public class BoardController extends HttpServlet {
 	//5번 문항작성//////////////////////////////////////////////////////////
 	@Override
 	public void init() throws ServletException {
-		Context initContext;
-		try {
-			initContext = new InitialContext();
-			Context envContext  = (Context)initContext.lookup("java:/comp/env");
-			DataSource ds = (DataSource)envContext.lookup("jdbc/myoracle");
-			Connection conn = ds.getConnection();
-			this.conn=conn;
-			System.out.println("DBCP연결");
-		} catch (NamingException | SQLException e) {
-			e.printStackTrace();
-		}
+		conn = (Connection) getServletContext().getAttribute("conn");
 	}
 	//DB 접속하는 객체 init()가 실행되면서 초기화 진행
 
@@ -47,6 +37,9 @@ public class BoardController extends HttpServlet {
 		String subject = request.getParameter("subject");
 		String content = request.getParameter("content");
 		String writer = request.getParameter("writer");
+		if(("").equals(writer)||writer==null) {
+			writer="guest";
+		}
 		
 
 		//9번 board 테이블에 입력처리할 쿼리를 문자열로 생성하세요
